@@ -1,3 +1,6 @@
 API_TMBD_worked_on_VPN.ipynb
 API_Кинопоиск_Unofficial.ipynb
 *.csv
+dbconfig.py
+Парсинг_рецензий.ipynb
+__pycache__
