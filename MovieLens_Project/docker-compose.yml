@@ -1,0 +1,9 @@
+services:
+  dash-app:
+    build: .
+    container_name: dash-movielens
+    ports:
+      - "8050:8050"
+    volumes:
+      - .:/app
+    restart: unless-stopped
