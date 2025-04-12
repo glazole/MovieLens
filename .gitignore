@@ -1,10 +1,7 @@
-API_TMBD_worked_on_VPN.ipynb
-API_Кинопоиск_Unofficial.ipynb
 *.csv
 dbconfig.py
-Парсинг_рецензий.ipynb
-Копия_блокнота__NLP_lab1_.ipynb
+*.ipynb
 __pycache__
 Untitled-1.ipynb
-*.txt
 *.png
+*.txt
