@@ -8,9 +8,9 @@ layout = html.Div([
         html.Li("Интерактивные графики и таблицы на основе MovieLens"),
         html.Li("Удобная навигация и markdown-контент")
     ]),
-    html.Div("6", className="page-number"),
+    html.Div("15", className="page-number"),
     html.Div([
-        dcc.Link("❮", href="/slide5", className="circle-nav-btn prev"),
-        dcc.Link("❯", href="/slide7", className="circle-nav-btn next")
+        dcc.Link("❮", href="/slide14", className="circle-nav-btn prev"),
+        dcc.Link("❯", href="/slide16", className="circle-nav-btn next")
     ], className="circle-nav-container")
 ])

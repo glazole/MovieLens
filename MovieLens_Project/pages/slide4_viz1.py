@@ -1,49 +1,43 @@
-from dash import html, dcc, dash_table, callback, Output, Input
+from dash import html, dash_table
 import pandas as pd
-import plotly.express as px
 import dash_mantine_components as dmc
 
-# Загружаем данные
-df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv')
+def get_layout(data):  # <- изменить имя функции!
+    df = data["movies_total"]
+    describe_df = df.describe(include='all').transpose().reset_index()
+    describe_df.rename(columns={'index': 'column'}, inplace=True)
 
-layout = html.Div([
-    html.H2("Визуализация 1", className="slide-title"),
-    html.Hr(),
+    return html.Div([
+        html.H2("Статистическое описание датасета MovieLens", className="slide-title"),
+        html.Hr(),
+        dmc.Text("Метод describe() — сводная информация по столбцам:", className="mb-4"),
+        dash_table.DataTable(
+            data=describe_df.to_dict('records'),
+            columns=[{"name": i, "id": i} for i in describe_df.columns],
+            style_table={
+                'overflowX': 'auto',
+                'maxHeight': '700px',
+                'overflowY': 'scroll'
+            },
+            style_cell={
+                'textAlign': 'left',
+                'padding': '6px',
+                'whiteSpace': 'nowrap',
+                'height': 'auto',
+                'maxWidth': '250px',
+                'overflow': 'hidden',
+                'textOverflow': 'ellipsis'
+            },
 
-    dmc.RadioGroup(
-        [dmc.Radio(i, value=i) for i in ['pop', 'lifeExp', 'gdpPercap']],
-        id='my-dmc-radio-item',
-        value='lifeExp',
-        size="sm",
-        className="mb-4"
-    ),
-
-    dmc.Grid([
-        dmc.Col([
-            dash_table.DataTable(
-                data=df.to_dict('records'),
-                page_size=10,
-                style_table={'overflowX': 'auto'},
-                style_cell={'textAlign': 'left', 'padding': '5px'},
-            )
-        ], span=6),
-
-        dmc.Col([
-            dcc.Graph(figure={}, id='graph-placeholder')
-        ], span=6),
-    ]),
-
-    html.Div("4", className="page-number"),
-    html.Div([
-        dcc.Link("❮", href="/slide3", className="circle-nav-btn prev"),
-        dcc.Link("❯", href="/slide5", className="circle-nav-btn next")
-    ], className="circle-nav-container")
-])
-
-@callback(
-    Output('graph-placeholder', 'figure'),
-    Input('my-dmc-radio-item', 'value')
-)
-def update_graph(col_chosen):
-    fig = px.histogram(df, x='continent', y=col_chosen, histfunc='avg')
-    return fig
+            style_header={
+                'fontWeight': 'bold',
+                'backgroundColor': '#f0f0f0'
+            },
+            page_size=len(describe_df)
+        ),
+        html.Div("4", className="page-number"),
+        html.Div([
+            html.A("❮", href="/slide3", className="circle-nav-btn prev"),
+            html.A("❯", href="/slide5", className="circle-nav-btn next")
+        ], className="circle-nav-container")
+    ])
